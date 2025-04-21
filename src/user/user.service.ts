@@ -19,8 +19,10 @@ export class UserService {
     return this.repo.find();
   }
 
-  findOne(id: number) {
-    return this.repo.findOneBy({ id });
+  findOne(query: any) {
+    return this.repo.findOne({
+      where: query
+    });
   }
 
   async create(data: CreateUserDto) {

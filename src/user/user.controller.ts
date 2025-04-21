@@ -20,9 +20,9 @@ export class UserController {
     }
   }
 
-  @MessagePattern({cmd: 'get-user-by-id'})
-  async findOne(@Payload() id: number) {
-    return await this.service.findOne(id);
+  @MessagePattern({cmd: 'get-user'})
+  async findOne(@Payload() query: any) {
+    return await this.service.findOne(query);
   }
 
   @MessagePattern({ cmd: 'create-user' })
