@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { User } from './user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { RpcException } from '@nestjs/microservices';
 
 @Injectable()
 export class UserService {
@@ -30,7 +30,10 @@ export class UserService {
 
   async update(id: number, data: UpdateUserDto) : Promise<User> {
     const user = await this.repo.update(id,data);
-    if (!user) throw new NotFoundException();
+    if (!user) throw new RpcException({
+      error: 'User not found',
+      status: 400
+    });
     return (await this.findOne(id))!;
   }
 
